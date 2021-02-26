@@ -4,13 +4,16 @@ import './style.css'
 const FeaturedMovie = ({ item }) => {
 
     let releaseYear = new Date(item.first_air_date)
+    //let genres = item.genres.map(i => i.name) # Usando o map() para listar os gêneros
     let genres = []
     for (let i in item.genres) {
         genres.push(item.genres[i].name)
     }
 
-    console.log(genres)
-
+    let description = item.overview
+    if (description.length > 200) {
+        description = description.substring(0, 250) + '...'
+    }
 
     return (
         <section className='featuredMovie' style={{
@@ -26,10 +29,10 @@ const FeaturedMovie = ({ item }) => {
                         <div className='featuredMovie--year'>{releaseYear.getFullYear()}</div>
                         <div className='featuredMovie--seasons'>{item.number_of_seasons} temporada{item.number_of_seasons !== 1 && 's'}</div>
                     </div>
-                    <div className='featuredMovie--description'>{item.overview}</div>
+                    <div className='featuredMovie--description'>{description}</div>
                     <div className='featuredMovie--buttons'>
-                        <a href={`/watch/${item.id}`}>► Assistir</a>
-                        <a href={`/list/${item.id}`}>+ Minha Lista</a>
+                        <a href={`/watch/${item.id}`} className='featuredMovie--watchbutton'>► Assistir</a>
+                        <a href={`/list/${item.id}`} className='featuredMovie--watchlistbutton'>+ Minha Lista</a>
                     </div>
                     <div className='featuredMovie--genres'>
                         <strong>Gênero{genres.length > 1 && 's'}: </strong>{genres.join(', ')}
